@@ -1,3 +1,5 @@
+DR.dlopen "ext"
+
 CHIP_WIDTH = 100
 
 SUB_SPRITE = {
@@ -502,6 +504,10 @@ module Main
   end
 
   def init args
+    # test eclair
+
+    puts "eclair: #{FFI::Eclair.error_string()}"
+
     # default air level
     args.state.airLevel ||= 25
     args.state.round ||= 1
@@ -873,10 +879,11 @@ module Main
       args.outputs.a11y_clear_pending_notifications!
 
       # announce any new readout
-      args.outputs.a11y[:readout] = {
-        a11y_text: args.state.readout,
-        a11y_trait: :notification
-      }
+      # args.outputs.a11y[:readout] = {
+      #   a11y_text: args.state.readout,
+      #   a11y_trait: :notification
+      # }
+      FFI::Eclair.speak(args.state.readout)
 
       args.state.lastReadout = args.state.readout
     end
